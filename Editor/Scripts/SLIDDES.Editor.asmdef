@@ -1,0 +1,18 @@
+{
+    "name": "SLIDDES.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:031ded01dda52b747952590b61a3538d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
