@@ -1,15 +1,11 @@
 {
-    "name": "SLIDDES.Editor",
-    "rootNamespace": "SLIDDES.Editor",
+    "name": "SLIDDES.Components",
+    "rootNamespace": "SLIDDES.Components",
     "references": [
-        "GUID:031ded01dda52b747952590b61a3538d",
         "GUID:8b3e3932230a54d42863b336a543ba8b",
-        "GUID:c81b897a38b599741bc9b28ab22c5123",
         "GUID:1ec28b5b55a468d4b868aeaf2d257137"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

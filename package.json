@@ -1,6 +1,6 @@
 {
   "name": "com.sliddes.general",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "SLIDDES General",
   "description": "For general purpose stuff in Unity",
   "keywords": [
@@ -18,10 +18,10 @@
   "unity": "2020.3",
   "hideInEditor": false,
   "samples": [
-      {
-          "displayName": "Sample Quaternions",
-          "description": "Contains a scene with examples of quaternion functions in use",
-          "path": "Samples~/Sample Quaternions"
-      }
+    {
+      "displayName": "Sample Quaternions",
+      "description": "Contains a scene with examples of quaternion functions in use",
+      "path": "Samples~/Sample Quaternions"
+    }
   ]
 }

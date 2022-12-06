@@ -13,6 +13,7 @@ namespace SLIDDES.Samples.Quaternions
         [Header("Rotate Towords Target On X")]
         public Transform rotateTowordsTargetX;
         public Transform rotateTowordsTargetXTarget;
+        public float speedRTTX = 1;
         [Header("Rotate Towords Target On Y")]
         public Transform rotateTowordsTargetY;
         public Transform rotateTowordsTargetYTarget;
@@ -51,19 +52,22 @@ namespace SLIDDES.Samples.Quaternions
         public void Rotate()
         {
             QuaternionC.Rotate(rotate, new Vector3(1, 1, 1), speed);
-            QuaternionC.RotateOnAxisX(rotateX, speed);
-            QuaternionC.RotateOnAxisY(rotateY, speed);
-            QuaternionC.RotateOnAxisZ(rotateZ, speed);
+            QuaternionC.RotateOnAxis(QuaternionC.Axis.x, rotateX, speed);
+            QuaternionC.RotateOnAxis(QuaternionC.Axis.y, rotateY, speed);
+            QuaternionC.RotateOnAxis(QuaternionC.Axis.z, rotateZ, speed);
         }
 
         public void RotateTowordsTargetOnAxis()
         {
             // X axis
-            QuaternionC.RotateTowordsOnAxisX(rotateTowordsTargetX, rotateTowordsTargetXTarget);
+            //QuaternionC.RotateTowordsOnAxisX(rotateTowordsTargetX, rotateTowordsTargetXTarget, speedRTTX * Time.deltaTime);
+            //rotateTowordsTargetX.rotation = Quaternion.Slerp(rotateTowordsTargetX.rotation, rotateTowordsTargetXTarget.rotation, speedRTTX * Time.deltaTime);
+            //QuaternionC.CopyRotation(rotateTowordsTargetX, rotateTowordsTargetXTarget, speedRTTX * Time.deltaTime);
+            QuaternionC.RotateTowordsOnAxis(QuaternionC.Axis.x, rotateTowordsTargetX, rotateTowordsTargetXTarget, speed);
             // Y axis
-            QuaternionC.RotateTowordsOnAxisY(rotateTowordsTargetY, rotateTowordsTargetYTarget);
+            QuaternionC.RotateTowordsOnAxis(QuaternionC.Axis.y, rotateTowordsTargetY, rotateTowordsTargetYTarget, speed);
             // Z axis
-            QuaternionC.RotateTowordsOnAxisZ(rotateTowordsTargetZ, rotateTowordsTargetZTarget);
+            QuaternionC.RotateTowordsOnAxis(QuaternionC.Axis.z, rotateTowordsTargetZ, rotateTowordsTargetZTarget);
             // All
             QuaternionC.RotateTowords(rotateTowordsTarget, rotateTowordsTargetTarget, 10 * Time.deltaTime);
         }

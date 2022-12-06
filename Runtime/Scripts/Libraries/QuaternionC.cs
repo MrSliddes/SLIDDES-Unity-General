@@ -22,6 +22,17 @@ namespace SLIDDES
         }
 
         /// <summary>
+        /// Rotate a origin.rotation to that of the target.rotation
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="target"></param>
+        /// <param name="speed">How fast the rotation is. Set to 1 for instant rotation</param>
+        public static void CopyRotation(Transform origin, Transform target, float speed)
+        {
+            origin.rotation = Quaternion.Slerp(origin.rotation, target.rotation, speed);
+        }
+
+        /// <summary>
         /// Get the direction between 2 points
         /// </summary>
         /// <param name="origin">The origin position</param>
@@ -56,37 +67,53 @@ namespace SLIDDES
         }
 
         /// <summary>
-        /// Rotate an object on its x axis
+        /// Rotate an transform on a specific axis
         /// </summary>
-        /// <param name="origin">The origin transform to rotate</param>
-        /// <param name="speed">The speed at which to rotate</param>
-        public static void RotateOnAxisX(Transform origin, float speed, Space space = Space.World)
+        /// <param name="axis">The axis to rotate on</param>
+        /// <param name="origin">The transform to rotate</param>
+        /// <param name="speed">The speed of the rotation</param>
+        /// <param name="space">The space in which to operate</param>
+        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+        public static void RotateOnAxis(Axis axis, Transform origin, float speed, Space space = Space.World)
         {
-            origin.Rotate(Vector3.right, speed, space);
+            switch(axis)
+            {
+                case Axis.x:
+                    origin.Rotate(Vector3.right, speed, space);
+                    break;
+                case Axis.y:
+                    origin.Rotate(Vector3.up, speed, space);
+                    break;
+                case Axis.z:
+                    origin.Rotate(Vector3.forward, speed, space);
+                    break;
+                default: throw new System.ArgumentOutOfRangeException("axis");
+            }
+        }
+
+
+        /// <summary>
+        /// Rotate the transform.forward towords the target
+        /// </summary>
+        /// <param name="origin"></param>
+        /// <param name="target"></param>
+        public static void RotateTowords(Transform origin, Transform target)
+        {
+            origin.rotation = Quaternion.LookRotation((target.position - origin.position).normalized);
         }
 
         /// <summary>
-        /// Rotate an object on its y axis
+        /// Rotate the transform.forward towords the target
         /// </summary>
-        /// <param name="origin">The origin transform to rotate</param>
-        /// <param name="speed">The speed at which to rotate</param>
-        public static void RotateOnAxisY(Transform origin, float speed, Space space = Space.World)
+        /// <param name="origin"></param>
+        /// <param name="target"></param>
+        public static void RotateTowords(Transform origin, Transform target, Vector3 upwards)
         {
-            origin.Rotate(Vector3.up, speed, space);
+            origin.rotation = Quaternion.LookRotation((target.position - origin.position).normalized, upwards);
         }
 
         /// <summary>
-        /// Rotate an object on its z axis
-        /// </summary>
-        /// <param name="origin">The origin transform to rotate</param>
-        /// <param name="speed">The speed at which to rotate</param>
-        public static void RotateOnAxisZ(Transform origin, float speed, Space space = Space.World)
-        {
-            origin.Rotate(Vector3.forward, speed, space);
-        }
-
-        /// <summary>
-        /// Rotate a transform forward to a target
+        /// Rotate the transform.forward towords the target
         /// </summary>
         /// <param name="origin">The origin transform</param>
         /// <param name="target">The target transform to rotate towords</param>
@@ -95,6 +122,40 @@ namespace SLIDDES
         public static void RotateTowords(Transform origin, Transform target, float speed, float maxMagnitudeDelta = 0)
         {
             origin.rotation = Quaternion.LookRotation(Vector3.RotateTowards(origin.forward, target.position - origin.position, speed, maxMagnitudeDelta));
+        }
+
+        /// <summary>
+        /// Rotate towords the target on a specific axis
+        /// </summary>
+        /// <param name="axis"></param>
+        /// <param name="origin"></param>
+        /// <param name="target"></param>
+        /// <param name="speed"></param>
+        /// <param name="maxMagnitudeDelta"></param>
+        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
+        public static void RotateTowordsOnAxis(Axis axis, Transform origin, Transform target, float speed = 1, float maxMagnitudeDelta = 0)
+        {
+            Vector3 originPosition = origin.position;
+            Vector3 targetPosition = target.position;
+
+            switch(axis)
+            {
+                case Axis.x:
+                    originPosition.x = 0;
+                    targetPosition.x = 0;
+                    break;
+                case Axis.y:
+                    originPosition.y = 0;
+                    targetPosition.y = 0;
+                    break;
+                case Axis.z:
+                    originPosition.z = 0;
+                    targetPosition.z = 0;
+                    break;
+                default: throw new System.ArgumentOutOfRangeException("axis");
+            }
+
+            origin.rotation = Quaternion.LookRotation(Vector3.RotateTowards(origin.forward, targetPosition - originPosition, speed, maxMagnitudeDelta));
         }
 
         /// <summary>
@@ -109,89 +170,11 @@ namespace SLIDDES
             origin.rotation = Quaternion.Slerp(origin.rotation, Quaternion.AngleAxis((Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg), Vector3.forward), speed);
         }
 
-        /// <summary>
-        /// Get the quaternion for directly looking at a target
-        /// </summary>
-        /// <param name="origin">The origin position to rotate</param>
-        /// <param name="target">The target position to rotate towords</param>
-        /// <returns>Quaternion that looks at target</returns>
-        public static Quaternion RotateTowordsInstant(Vector3 origin, Vector3 target)
+        public enum Axis
         {
-            return Quaternion.LookRotation((target - origin).normalized);
-        }
-
-        /// <summary>
-        /// Get the quaternion for directly looking at a target
-        /// </summary>
-        /// <param name="origin">The origin position to rotate</param>
-        /// <param name="target">The target position to rotate towords</param>
-        /// <returns>Quaternion that looks at target</returns>
-        public static Quaternion RotateTowordsInstant(Vector3 origin, Vector3 target, Vector3 upwards)
-        {
-            return Quaternion.LookRotation((target - origin).normalized, upwards);
-        }
-
-        /// <summary>
-        /// Rotate a transform towords a target only on the x axis
-        /// </summary>
-        /// <param name="origin">The origin transform</param>
-        /// <param name="target">The target transform</param>
-        public static void RotateTowordsOnAxisX(Transform origin, Transform target)
-        {
-            origin.LookAt(new Vector3(origin.position.x, target.position.y, target.position.z));
-        }
-
-        /// <summary>
-        /// Rotate a transform towords a target only on the x axis
-        /// </summary>
-        /// <param name="origin">The origin transform.position</param>
-        /// <param name="target">The target transform.position</param>
-        /// <returns>Vector3 to be used in transform.LookAt()</returns>
-        public static Vector3 RotateTowordsOnAxisX(Vector3 origin, Vector3 target)
-        {
-            return new Vector3(origin.x, target.y, target.z);
-        }
-
-        /// <summary>
-        /// Rotate a transform towords a target only on the y axis
-        /// </summary>
-        /// <param name="origin">The origin transform</param>
-        /// <param name="target">The target transform</param>
-        public static void RotateTowordsOnAxisY(Transform origin, Transform target)
-        {
-            origin.LookAt(new Vector3(target.position.x, origin.position.y, target.position.z));
-        }
-
-        /// <summary>
-        /// Rotate a transform towords a target only on the y axis
-        /// </summary>
-        /// <param name="origin">The origin transform.position</param>
-        /// <param name="target">The target transform.position</param>
-        /// <returns>Vector3 to be used in transform.LookAt()</returns>
-        public static Vector3 RotateTowordsOnAxisY(Vector3 origin, Vector3 target)
-        {
-            return new Vector3(target.x, origin.y, target.z);
-        }
-
-        /// <summary>
-        /// Rotate a transform towords a target only on the z axis
-        /// </summary>
-        /// <param name="origin">The origin transform</param>
-        /// <param name="target">The target transform</param>
-        public static void RotateTowordsOnAxisZ(Transform origin, Transform target)
-        {
-            origin.LookAt(new Vector3(target.position.x, target.position.y, origin.position.z));
-        }
-
-        /// <summary>
-        /// Rotate a transform towords a target only on the z axis
-        /// </summary>
-        /// <param name="origin">The origin transform.position</param>
-        /// <param name="target">The target transform.position</param>
-        /// <returns>Vector3 to be used in transform.LookAt()</returns>
-        public static Vector3 RotateTowordsOnAxisZ(Vector3 origin, Vector3 target)
-        {
-            return new Vector3(target.x, target.y, origin.z);
+            x,
+            y,
+            z
         }
     }
 }
