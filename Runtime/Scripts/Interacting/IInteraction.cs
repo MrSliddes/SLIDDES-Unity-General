@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,8 @@ namespace SLIDDES.Interacting
         /// <summary>
         /// When the interaction first gets enterd
         /// </summary>
-        /// <param name="gameObject">The gameObject that wants to interact</param>
-        public virtual void Enter(GameObject gameObject)
+        /// <param name="invoker">The gameObject that wants to interact</param>
+        public virtual void Enter(GameObject invoker)
         {
 
         }
@@ -29,8 +30,8 @@ namespace SLIDDES.Interacting
         /// <summary>
         /// Interact with the gameobject
         /// </summary>
-        /// <param name="gameObject">The gameObject that wants to interact</param>        
-        public virtual void Update(GameObject gameObject)
+        /// <param name="invoker">The gameObject that wants to interact</param>        
+        public virtual void Update(GameObject invoker)
         {
 
         }
@@ -38,10 +39,19 @@ namespace SLIDDES.Interacting
         /// <summary>
         /// Exit an interaction
         /// </summary>
-        /// <param name="gameObject">The gameobject that wants to exit the interaction</param>
-        public virtual void Exit(GameObject gameObject)
+        /// <param name="invoker">The gameobject that wants to exit the interaction</param>
+        public virtual void Exit(GameObject invoker)
         {
 
+        }
+
+        /// <summary>
+        /// Get the gameobject coupled to the interaction
+        /// </summary>
+        /// <param name="invoker">The gameobject that wants to get the other gameobject</param>
+        public virtual GameObject GameObject(GameObject invoker = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }
