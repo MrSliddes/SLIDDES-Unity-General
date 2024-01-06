@@ -31,6 +31,8 @@ namespace SLIDDES.Menus
         {
             if(!initialized) Initialize();
 
+            if(currentMenu != null) currentMenu.Close();
+
             currentMenu = menu;
             if(currentMenu != null) currentMenu.Open();
         }
