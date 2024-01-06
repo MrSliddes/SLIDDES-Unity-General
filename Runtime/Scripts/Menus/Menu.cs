@@ -66,6 +66,21 @@ namespace SLIDDES.Menus
         }
 
         /// <summary>
+        /// Toggle the menu to be open/closed
+        /// </summary>
+        public void Toggle()
+        {
+            if(IsClosed)
+            {
+                Open();
+            }
+            else
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
         /// Toggle children of transform
         /// </summary>
         private void ToggleChildren()
