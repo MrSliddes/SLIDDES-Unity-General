@@ -80,6 +80,18 @@ namespace SLIDDES.Menus
             }
         }
 
+        public void Togge(bool value)
+        {
+            if(value)
+            {
+                Open();
+            }
+            else
+            {
+                Close();
+            }
+        }
+
         /// <summary>
         /// Toggle children of transform
         /// </summary>
